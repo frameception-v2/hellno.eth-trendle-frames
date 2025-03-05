@@ -1,12 +1,20 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-interface GameState {
+export interface GameState {
   solution: string
   guesses: string[]
   currentGuess: string
   gameStatus: 'active'|'won'|'lost'
   lastUpdated: number
+}
+
+interface GameActions {
+  addLetter: (letter: string) => void
+  deleteLetter: () => void
+  submitGuess: () => void
+  resetGame: () => void
+  initializeDailyWord: () => void
 }
 
 const getDailyWord = () => {
@@ -39,9 +47,16 @@ const getDailyWord = () => {
   return dailyWord
 }
 
-export const useGameStore = create<GameState>()(
+export const useGameStore = create<GameState & GameActions>()(
   persist(
     (set, get) => ({
+      initializeDailyWord: () => {
+        const now = Date.now()
+        const lastUpdate = get().lastUpdated
+        if (now - lastUpdate > 86400000) { // 24 hours
+          set({ solution: getDailyWord() })
+        }
+      },
       solution: getDailyWord(),
       guesses: [],
       currentGuess: '',
