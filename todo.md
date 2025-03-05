@@ -4,8 +4,8 @@ Here's the prioritized implementation checklist:
 - [x] Create Zustand store with GameState interface in game-store.ts (state container)
 - [x] Implement localStorage persistence/loading in game-store.ts (data survival on refresh)
 - [x] Add daily solution initialization with timestamp check (daily word rotation)
-- [ ] Create core actions: addLetter, deleteLetter, submitGuess (game logic)
-- [ ] Add input validation for 6-letter words (game rules enforcement)
+- [x] Create core actions: addLetter, deleteLetter, submitGuess (game logic)
+- [x] Add input validation for 6-letter words (game rules enforcement)
 
 ### 2. Grid Core Implementation
 - [ ] Build GridContainer with CSS Grid layout (desktop-first responsive base)

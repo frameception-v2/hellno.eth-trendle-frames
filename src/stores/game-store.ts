@@ -49,22 +49,25 @@ export const useGameStore = create<GameState>()(
       lastUpdated: Date.now(),
       
       addLetter: (letter: string) => {
+        const validLetter = letter.toUpperCase().match(/^[A-Z]$/)
+        if (!validLetter) return
+        
         set((state) => ({
-          currentGuess: state.currentGuess.length < 6 ? state.currentGuess + letter.toUpperCase() : state.currentGuess
+          currentGuess: state.currentGuess.length < 6 ? state.currentGuess + validLetter[0] : state.currentGuess
         }))
-        localStorage.setItem('wordle-game-storage', JSON.stringify(get()))
       },
       
       deleteLetter: () => {
         set((state) => ({
           currentGuess: state.currentGuess.slice(0, -1)
         }))
-        localStorage.setItem('wordle-game-storage', JSON.stringify(get()))
       },
       
       submitGuess: () => {
         set((state) => {
-          if (state.currentGuess.length !== 6) return state
+          // Prevent submission if game is over or guess is invalid
+          if (state.gameStatus !== 'active' || state.currentGuess.length !== 6) return state
+          if (!/^[A-Z]{6}$/.test(state.currentGuess)) return state
           
           const newGuesses = [...state.guesses, state.currentGuess]
           const isCorrect = state.currentGuess === state.solution
