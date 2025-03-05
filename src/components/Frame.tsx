@@ -22,6 +22,7 @@ import { useSession } from "next-auth/react";
 import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
 import { Tile, type TileProps } from "~/components/ui/Tile";
+import { Keyboard } from "~/components/Keyboard";
 import { PROJECT_TITLE } from "~/lib/constants";
 
 function ExampleCard() {

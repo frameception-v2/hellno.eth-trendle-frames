@@ -16,7 +16,7 @@ Here's the prioritized implementation checklist:
 
 ### 3. Input System
 - [x] Create Keyboard component with QWERTY layout (input mechanism)
-- [ ] Connect keyboard to store's add/delete/submit actions (game interaction)
+- [x] Connect keyboard to store's add/delete/submit actions (game interaction)
 - [ ] Implement key state tracking (used letters visualization)
 - [ ] Add disabled states for game-end scenarios (play control)
 - [ ] Add mobile touch event support (cross-device compatibility)
