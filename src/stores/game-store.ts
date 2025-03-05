@@ -14,16 +14,28 @@ const getDailyWord = () => {
   const stored = localStorage.getItem('dailyWord')
   const storedDate = localStorage.getItem('dailyWordDate')
   
-  if (stored && storedDate && Date.now() - parseInt(storedDate) < 86400000) {
-    return stored
+  // Check if we have a valid stored word for today
+  if (stored && storedDate) {
+    const storedDay = new Date(parseInt(storedDate))
+    storedDay.setHours(0, 0, 0, 0) // Normalize to midnight
+    
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    
+    if (storedDay.getTime() === today.getTime()) {
+      return stored
+    }
   }
   
-  // Fallback to local word list (to be replaced with API)
+  // Generate new daily word at midnight
   const words = ['REACTS', 'FRAMES', 'ZUSTAND', 'MOBILE', 'TEMPLATE']
   const dailyWord = words[Math.floor(Math.random() * words.length)]
   
+  // Store with midnight timestamp
+  const midnight = new Date()
+  midnight.setHours(24, 0, 0, 0) // Next midnight
   localStorage.setItem('dailyWord', dailyWord)
-  localStorage.setItem('dailyWordDate', Date.now().toString())
+  localStorage.setItem('dailyWordDate', midnight.getTime().toString())
   return dailyWord
 }
 
@@ -96,7 +108,6 @@ export const useGameStore = create<GameState>()(
     {
       name: 'wordle-game-storage',
       partialize: (state) => ({
-        solution: state.solution,
         guesses: state.guesses,
         currentGuess: state.currentGuess,
         gameStatus: state.gameStatus,
