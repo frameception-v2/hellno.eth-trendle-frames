@@ -10,7 +10,7 @@ Here's the prioritized implementation checklist:
 ### 2. Grid Core Implementation
 - [x] Build GridContainer with CSS Grid layout (desktop-first responsive base)
 - [x] Create Tile component with base styling (consistent cell appearance)
-- [ ] Connect grid to Zustand store guesses/solution (dynamic content rendering)
+- [x] Connect grid to Zustand store guesses/solution (dynamic content rendering)
 - [ ] Implement empty/partial/filled tile states (visual progress tracking)
 - [ ] Add basic color classes for correct/incorrect positions (feedback foundation)
 

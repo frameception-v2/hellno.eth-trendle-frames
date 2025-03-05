@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useCallback, useState } from "react";
+import { useGameStore } from "~/stores/game-store";
 import sdk, {
   AddFrame,
   SignIn as SignInCore,
@@ -145,9 +146,21 @@ export default function Frame() {
             gridTemplateColumns: 'repeat(6, minmax(0, 1fr))'
           }}
         >
-          {Array.from({ length: 24 }).map((_, index) => (
-            <Tile key={index} />
-          ))}
+          {Array.from({ length: 24 }).map((_, index) => {
+            const row = Math.floor(index / 6);
+            const position = index % 6;
+            const guess = useGameStore.getState().guesses[row];
+            const currentGuess = useGameStore((s) => s.currentGuess);
+            const solution = useGameStore((s) => s.solution);
+            
+            const letter = guess 
+              ? guess[position]
+              : row === useGameStore.getState().guesses.length
+              ? currentGuess[position] || ''
+              : '';
+
+            return <Tile key={index}>{letter}</Tile>;
+          })}
         </div>
       </div>
     </div>
