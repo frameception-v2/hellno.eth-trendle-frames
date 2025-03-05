@@ -20,6 +20,7 @@ import { base, optimism } from "wagmi/chains";
 import { useSession } from "next-auth/react";
 import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
+import { Tile } from "~/components/ui/Tile";
 import { PROJECT_TITLE } from "~/lib/constants";
 
 function ExampleCard() {
