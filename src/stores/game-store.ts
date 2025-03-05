@@ -29,49 +29,76 @@ const getDailyWord = () => {
 
 export const useGameStore = create<GameState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       solution: getDailyWord(),
       guesses: [],
       currentGuess: '',
       gameStatus: 'active',
       lastUpdated: Date.now(),
       
-      addLetter: (letter: string) => set((state) => ({
-        currentGuess: state.currentGuess.length < 6 ? state.currentGuess + letter.toUpperCase() : state.currentGuess
-      })),
+      addLetter: (letter: string) => {
+        set((state) => ({
+          currentGuess: state.currentGuess.length < 6 ? state.currentGuess + letter.toUpperCase() : state.currentGuess
+        }))
+        localStorage.setItem('wordle-game-storage', JSON.stringify(get()))
+      },
       
-      deleteLetter: () => set((state) => ({
-        currentGuess: state.currentGuess.slice(0, -1)
-      })),
+      deleteLetter: () => {
+        set((state) => ({
+          currentGuess: state.currentGuess.slice(0, -1)
+        }))
+        localStorage.setItem('wordle-game-storage', JSON.stringify(get()))
+      },
       
-      submitGuess: () => set((state) => {
-        if (state.currentGuess.length !== 6) return state
-        
-        const newGuesses = [...state.guesses, state.currentGuess]
-        const isCorrect = state.currentGuess === state.solution
-        const isLost = newGuesses.length >= 6 && !isCorrect
-        
-        return {
-          guesses: newGuesses,
+      submitGuess: () => {
+        set((state) => {
+          if (state.currentGuess.length !== 6) return state
+          
+          const newGuesses = [...state.guesses, state.currentGuess]
+          const isCorrect = state.currentGuess === state.solution
+          const isLost = newGuesses.length >= 6 && !isCorrect
+          
+          localStorage.setItem('wordle-game-storage', JSON.stringify({
+            solution: state.solution,
+            guesses: newGuesses,
+            gameStatus: isCorrect ? 'won' : isLost ? 'lost' : 'active',
+            lastUpdated: Date.now()
+          }))
+          
+          return {
+            guesses: newGuesses,
+            currentGuess: '',
+            gameStatus: isCorrect ? 'won' : isLost ? 'lost' : 'active',
+            lastUpdated: Date.now()
+          }
+        })
+      },
+      
+      resetGame: () => {
+        const newSolution = getDailyWord()
+        localStorage.setItem('wordle-game-storage', JSON.stringify({
+          solution: newSolution,
+          guesses: [],
           currentGuess: '',
-          gameStatus: isCorrect ? 'won' : isLost ? 'lost' : 'active',
+          gameStatus: 'active',
           lastUpdated: Date.now()
-        }
-      }),
-      
-      resetGame: () => set({
-        solution: getDailyWord(),
-        guesses: [],
-        currentGuess: '',
-        gameStatus: 'active',
-        lastUpdated: Date.now()
-      })
+        }))
+        
+        set({
+          solution: newSolution,
+          guesses: [],
+          currentGuess: '',
+          gameStatus: 'active',
+          lastUpdated: Date.now()
+        })
+      }
     }),
     {
       name: 'wordle-game-storage',
       partialize: (state) => ({
         solution: state.solution,
         guesses: state.guesses,
+        currentGuess: state.currentGuess,
         gameStatus: state.gameStatus,
         lastUpdated: state.lastUpdated
       })
