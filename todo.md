@@ -15,7 +15,7 @@ Here's the prioritized implementation checklist:
 - [x] Add basic color classes for correct/incorrect positions (feedback foundation)
 
 ### 3. Input System
-- [ ] Create Keyboard component with QWERTY layout (input mechanism)
+- [x] Create Keyboard component with QWERTY layout (input mechanism)
 - [ ] Connect keyboard to store's add/delete/submit actions (game interaction)
 - [ ] Implement key state tracking (used letters visualization)
 - [ ] Add disabled states for game-end scenarios (play control)

@@ -138,7 +138,7 @@ export default function Frame() {
         paddingRight: context?.client.safeAreaInsets?.right ?? 0,
       }}
     >
-      <div className="mx-auto p-2 max-w-[400px]">
+      <div className="mx-auto p-2 max-w-[400px] flex flex-col items-center">
         <div 
           className="grid grid-rows-4 grid-cols-6 gap-2 justify-center"
           style={{
@@ -175,6 +175,7 @@ export default function Frame() {
             return <Tile key={index} state={state}>{letter}</Tile>;
           })}
         </div>
+        <Keyboard />
       </div>
     </div>
   );
