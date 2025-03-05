@@ -176,7 +176,25 @@ export default function Frame() {
             return <Tile key={index} state={state}>{letter}</Tile>;
           })}
         </div>
-        <Keyboard />
+        <Keyboard usedKeys={
+          Array.from(new Set(
+            useGameStore.getState().guesses.flatMap(guess => 
+              guess.split('').map((char, i) => ({
+                char,
+                state: useGameStore.getState().solution[i] === char 
+                  ? 'correct' 
+                  : useGameStore.getState().solution.includes(char)
+                    ? 'present'
+                    : 'absent'
+              }))
+            )
+          )).reduce((acc, {char, state}) => ({
+            ...acc,
+            [char]: [...(acc[char] || []), state].includes('correct') 
+              ? 'correct' 
+              : state
+          }), {} as Record<string, TileProps['state']>)
+        } />
       </div>
     </div>
   );
