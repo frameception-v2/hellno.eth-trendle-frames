@@ -158,8 +158,21 @@ export default function Frame() {
               : row === currentRow
               ? currentGuess[position] || ''
               : '';
+              
+            let state: TileProps['state'] = 'empty';
+            if (guess) {
+              if (solution[position] === guess[position]) {
+                state = 'correct';
+              } else if (solution.includes(guess[position])) {
+                state = 'present';
+              } else {
+                state = 'absent';
+              }
+            } else if (letter) {
+              state = 'filled';
+            }
 
-            return <Tile key={index}>{letter}</Tile>;
+            return <Tile key={index} state={state}>{letter}</Tile>;
           })}
         </div>
       </div>
