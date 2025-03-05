@@ -136,8 +136,18 @@ export default function Frame() {
         paddingRight: context?.client.safeAreaInsets?.right ?? 0,
       }}
     >
-      <div className="w-[300px] mx-auto py-2 px-2">
-        <ExampleCard />
+      <div className="mx-auto p-2 max-w-[400px]">
+        <div 
+          className="grid grid-rows-4 grid-cols-6 gap-2 justify-center"
+          style={{
+            gridTemplateRows: 'repeat(4, minmax(0, 1fr))',
+            gridTemplateColumns: 'repeat(6, minmax(0, 1fr))'
+          }}
+        >
+          {Array.from({ length: 24 }).map((_, index) => (
+            <Tile key={index} />
+          ))}
+        </div>
       </div>
     </div>
   );
