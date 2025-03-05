@@ -19,7 +19,7 @@ export default function GridContainer() {
         
         return (
           <div key={rowIndex} className="grid grid-cols-6 gap-2 w-full">
-            {letters.split('').map((letter, cellIndex) => (
+            {letters.split('').map((letter: string, cellIndex: number) => (
               <Tile
                 key={cellIndex}
                 letter={letter}
@@ -33,7 +33,12 @@ export default function GridContainer() {
   )
 }
 
-function Tile({ letter, isActive }: { letter: string; isActive?: boolean }) {
+interface TileProps {
+  letter: string
+  isActive?: boolean
+}
+
+function Tile({ letter, isActive }: TileProps) {
   const isEmpty = letter === ' '
   const isFilled = !isEmpty && !isActive
   
