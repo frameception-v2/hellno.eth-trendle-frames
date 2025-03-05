@@ -176,7 +176,7 @@ export default function Frame() {
             return <Tile key={index} state={state}>{letter}</Tile>;
           })}
         </div>
-        <Keyboard usedKeys={
+        <Keyboard disabled={useGameStore.getState().gameStatus !== 'active'} usedKeys={
           Array.from(new Set(
             useGameStore.getState().guesses.flatMap(guess => 
               guess.split('').map((char, i) => ({

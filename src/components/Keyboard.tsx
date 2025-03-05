@@ -9,7 +9,9 @@ const QWERTY_LAYOUT = [
   ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "⌫"]
 ];
 
-export function Keyboard() {
+import type { TileProps } from "~/components/ui/Tile";
+
+export function Keyboard({ disabled }: { disabled?: boolean }) {
   const { addLetter, deleteLetter, submitGuess, gameStatus, guesses, solution } = useGameStore();
 
   const handleKeyPress = (key: string) => {
@@ -34,11 +36,17 @@ export function Keyboard() {
               className={cn(
                 "min-w-8 h-12 px-2 flex items-center justify-center",
                 "rounded-md font-semibold text-sm",
-                "bg-gray-200 hover:bg-gray-300 active:bg-gray-400",
                 "transition-colors duration-100",
                 key === "ENTER" && "min-w-16",
-                "touch-manipulation" // Optimize for touch interfaces
+                "touch-manipulation", // Optimize for touch interfaces
+                disabled 
+                  ? "opacity-50 cursor-not-allowed bg-gray-200" 
+                  : cn(
+                      "bg-gray-200 hover:bg-gray-300 active:bg-gray-400",
+                      "dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:active:bg-neutral-600"
+                    )
               )}
+              disabled={disabled}
               onClick={() => handleKeyPress(key)}
               data-key={key}
             >
