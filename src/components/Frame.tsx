@@ -147,15 +147,15 @@ export default function Frame() {
           }}
         >
           {Array.from({ length: 24 }).map((_, index) => {
+            const { guesses, currentGuess, solution } = useGameStore.getState();
             const row = Math.floor(index / 6);
             const position = index % 6;
-            const guess = useGameStore.getState().guesses[row];
-            const currentGuess = useGameStore((s) => s.currentGuess);
-            const solution = useGameStore((s) => s.solution);
+            const guess = guesses[row];
+            const currentRow = guesses.length;
             
             const letter = guess 
               ? guess[position]
-              : row === useGameStore.getState().guesses.length
+              : row === currentRow
               ? currentGuess[position] || ''
               : '';
 
