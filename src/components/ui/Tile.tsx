@@ -1,6 +1,6 @@
 import { cn } from "~/lib/utils";
 
-interface TileProps {
+export interface TileProps {
   children?: React.ReactNode;
   flip?: boolean;
   state?: 'empty' | 'filled' | 'correct' | 'present' | 'absent';
